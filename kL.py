@@ -22,7 +22,7 @@ class LieAlgebraRootCalculator:
         adjoint_reps = []
         for gen in self.generators:
             # Compute adjoint representation as a matrix
-            adj_rep = np.zeros_like(gen, dtype=float)
+            adj_rep = np.zeros_like(gen, dtype=complex)  # Use complex dtype
             for other_gen in self.generators:
                 # Compute the commutator [gen, other_gen]
                 adj_rep += np.matmul(gen, other_gen) - np.matmul(other_gen, gen)
@@ -83,11 +83,12 @@ class LieAlgebraRootCalculator:
 
 # Example usage
 def main():
-    # Example: 2x2 generators for a simple Lie algebra
-    x1 = np.array([[0, 1], [0, 0]])
-    x2 = np.array([[0, 0], [1, 0]])
-    
-    calculator = LieAlgebraRootCalculator([x1, x2])
+    # Use `1j` for complex numbers in Python (instead of `1i`)
+    x1 = np.array([[0, 1], [1, 0]], dtype=complex)
+    x2 = np.array([[0, -1j], [1j, 0]], dtype=complex)  # Correct complex number
+    x3 = np.array([[1, 0], [0, -1]], dtype=complex)
+
+    calculator = LieAlgebraRootCalculator([x1, x2, x3])
     
     print("Adjoint Representations:")
     for i, adj_rep in enumerate(calculator.compute_adjoint_representations(), 1):
