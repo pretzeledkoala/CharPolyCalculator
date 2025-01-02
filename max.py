@@ -45,26 +45,16 @@ def max_distinct_eigenvalues(lie_algebra):
     
     return max_distinct
 
-# Example: 2D Lie algebra (e.g., 2x2 matrices with traceless elements)
-# Let's use the Pauli matrices (as generators of su(2)) for illustration
-pauli_matrices = np.array([
-    np.array([[0, 1], [1, 0]]),   # sigma_x
-    np.array([[0, -1j], [1j, 0]]),  # sigma_y
-    np.array([[1, 0], [0, -1]])    # sigma_z
-])
+# Example: 1D extension input in the requested format
 
-# Gell-Mann matrices for su(3)
-gellmann_matrices = np.array([
-    np.array([[0, 1, 0], [1, 0, 0], [0, 0, 0]]),  # lambda_1
-    np.array([[0, -1j, 0], [1j, 0, 0], [0, 0, 0]]),  # lambda_2
-    np.array([[1, 0, 0], [0, -1, 0], [0, 0, 0]]),  # lambda_3
-    np.array([[0, 0, 1], [0, 0, 0], [1, 0, 0]]),  # lambda_4
-    np.array([[0, 0, -1j], [0, 0, 0], [1j, 0, 0]]),  # lambda_5
-    np.array([[0, 0, 0], [0, 0, 1], [0, 1, 0]]),  # lambda_6
-    np.array([[0, 0, 0], [0, 0, -1j], [0, 1j, 0]]),  # lambda_7
-    np.array([[1/3, 0, 0], [0, 1/3, 0], [0, 0, -2/3]])  # lambda_8
-])
+# Define each generator as an individual variable
+x1 = np.array([[0, 1], [0, 0]], dtype=complex)  # x1
+x2 = np.array([[0, 0], [0, 0]], dtype=complex)  # x2
+x3 = np.array([[1, 0], [0, 0]], dtype=complex)  # x3 (central element)
 
 # Now compute the maximum distinct eigenvalues from the adjoint representation
-result = max_distinct_eigenvalues(gellmann_matrices)
+onedimextend = [x1, x2, x3]
+
+# Compute the result
+result = max_distinct_eigenvalues(onedimextend)
 print("Maximum number of distinct eigenvalues:", result)

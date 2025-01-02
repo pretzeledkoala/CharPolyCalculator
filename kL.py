@@ -84,11 +84,15 @@ class LieAlgebraRootCalculator:
 # Example usage
 def main():
     # Use `1j` for complex numbers in Python (instead of `1i`)
-    x1 = np.array([[0, 1], [1, 0]], dtype=complex)
-    x2 = np.array([[0, -1j], [1j, 0]], dtype=complex)  # Correct complex number
-    x3 = np.array([[1, 0], [0, -1]], dtype=complex)
+    # x1 = np.array([[0, 1], [1, 0]], dtype=complex)
+    # x2 = np.array([[0, -1j], [1j, 0]], dtype=complex)  # Correct complex number
+    # x3 = np.array([[1, 0], [0, -1]], dtype=complex)
 
-    calculator = LieAlgebraRootCalculator([x1, x2, x3])
+    x1 = np.array([[0, 1], [0, 0]], dtype=complex)  # x1
+    x2 = np.array([[0, 0], [0, 0]], dtype=complex)  # x2
+    x3 = np.array([[1, 0], [0, 0]], dtype=complex)  # x3 (central element)
+
+    calculator = LieAlgebraRootCalculator([x1, x2])
     
     print("Adjoint Representations:")
     for i, adj_rep in enumerate(calculator.compute_adjoint_representations(), 1):
