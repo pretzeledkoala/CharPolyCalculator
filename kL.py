@@ -88,11 +88,28 @@ def main():
     # x2 = np.array([[0, -1j], [1j, 0]], dtype=complex)  # Correct complex number
     # x3 = np.array([[1, 0], [0, -1]], dtype=complex)
 
-    x1 = np.array([[0, 1], [0, 0]], dtype=complex)  # x1
-    x2 = np.array([[0, 0], [0, 0]], dtype=complex)  # x2
-    x3 = np.array([[1, 0], [0, 0]], dtype=complex)  # x3 (central element)
 
-    calculator = LieAlgebraRootCalculator([x1, x2])
+    # Generators for sl(4,C) 
+    x1 = np.array([[0, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+    x2 = np.array([[0, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+    x3 = np.array([[0, 0, 0, 1], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+    x4 = np.array([[0, 0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+    x5 = np.array([[0, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+    x6 = np.array([[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 0, 0], [0, 0, 0, 0]])
+    x7 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0]])
+    x8 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0]])
+    x9 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 0, 0]])
+    x10 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [1, 0, 0, 0]])
+    x11 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0]])
+    x12 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 1, 0]])
+    x13 = np.array([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+    x14 = np.array([[0, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 0]])
+    x15 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, -1]])
+
+
+    calculator = LieAlgebraRootCalculator([x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15])
+
+    # x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15
     
     print("Adjoint Representations:")
     for i, adj_rep in enumerate(calculator.compute_adjoint_representations(), 1):
