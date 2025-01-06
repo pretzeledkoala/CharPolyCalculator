@@ -1,127 +1,100 @@
 import numpy as np
+from itertools import product
 import sympy as sp
 
-class LieAlgebraRootCalculator:
-    def __init__(self, generators):
-        """
-        Initialize the Lie algebra calculator
-        
-        Parameters:
-        generators (list of numpy.ndarray): List of matrices generating the Lie algebra
-        """
-        self.generators = generators
-        self.dim = generators[0].shape[0]
+def adjoint_representation(x, basis):
+    """
+    Calculate the adjoint representation of a matrix x for any Lie algebra.
+    ad(x)(y) = [x,y] = xy - yx
+    """
+    n = len(basis)
+    ad_x = np.zeros((n, n))
     
-    def compute_adjoint_representations(self):
-        """
-        Compute the adjoint representations of the generators
-        
-        Returns:
-        list of numpy.ndarray: Adjoint representations of each generator
-        """
-        adjoint_reps = []
-        for gen in self.generators:
-            # Compute adjoint representation as a matrix
-            adj_rep = np.zeros_like(gen, dtype=complex)  # Use complex dtype
-            for other_gen in self.generators:
-                # Compute the commutator [gen, other_gen]
-                adj_rep += np.matmul(gen, other_gen) - np.matmul(other_gen, gen)
-            adjoint_reps.append(adj_rep)
-        return adjoint_reps
-    
-    def symbolic_characteristic_polynomial(self):
-        """
-        Compute the symbolic characteristic polynomial
-        
-        Returns:
-        sympy expression: The characteristic polynomial
-        """
-        # Create symbolic variables
-        z = [sp.Symbol(f'z_{i}') for i in range(len(self.generators)+1)]
-        
-        # Create symbolic matrix
-        I = sp.eye(self.dim)
-        symbolic_matrix = z[0] * I
-        
-        # Add adjoint representations
-        adjoint_reps = self.compute_adjoint_representations()
-        for i, adj_rep in enumerate(adjoint_reps, 1):
-            symbolic_matrix += z[i] * sp.Matrix(adj_rep)
-        
-        # Compute determinant
-        char_poly = sp.simplify(sp.det(symbolic_matrix))
-        return char_poly
-    
-    def count_distinct_roots(self):
-        """
-        Count the number of distinct roots of the characteristic polynomial
-        
-        Returns:
-        int: Number of distinct roots
-        """
-        # Create symbolic variables
-        z = [sp.Symbol(f'z_{i}') for i in range(len(self.generators)+1)]
-        
-        # Get the characteristic polynomial
-        char_poly = self.symbolic_characteristic_polynomial()
-        
-        # Expand the polynomial
-        expanded_poly = sp.expand(char_poly)
-        
-        # Solve the polynomial equation
-        try:
-            # Use solve to find roots
-            roots = sp.solve(expanded_poly, z[0])
+    # Calculate the action of x on each basis element
+    for i, e in enumerate(basis):
+        # Calculate [x,e] = xe - ex
+        commutator = x @ e - e @ x
+        # Convert the result into coordinates with respect to the basis
+        for j, b in enumerate(basis):
+            # Use trace for inner product: <A,B> = tr(A^T B)
+            ad_x[j, i] = np.trace(b.T @ commutator) / np.trace(b.T @ b)
             
-            # Convert roots to a set of unique values
-            distinct_roots = set(map(str, roots))
-            
-            return len(distinct_roots)
-        except Exception as e:
-            print(f"Error finding roots: {e}")
-            return 0
+    return ad_x
 
-# Example usage
-def main():
-    # Use `1j` for complex numbers in Python (instead of `1i`)
-    # x1 = np.array([[0, 1], [1, 0]], dtype=complex)
-    # x2 = np.array([[0, -1j], [1j, 0]], dtype=complex)  # Correct complex number
-    # x3 = np.array([[1, 0], [0, -1]], dtype=complex)
-
-
-    # Generators for sl(4,C) 
-    x1 = np.array([[0, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    x2 = np.array([[0, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    x3 = np.array([[0, 0, 0, 1], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    x4 = np.array([[0, 0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    x5 = np.array([[0, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    x6 = np.array([[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 0, 0], [0, 0, 0, 0]])
-    x7 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0]])
-    x8 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0]])
-    x9 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 0, 0]])
-    x10 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [1, 0, 0, 0]])
-    x11 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0]])
-    x12 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 1, 0]])
-    x13 = np.array([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-    x14 = np.array([[0, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 0]])
-    x15 = np.array([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, -1]])
-
-
-    calculator = LieAlgebraRootCalculator([x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15])
-
-    # x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15
+def count_distinct_roots(poly, z0):
+    """
+    Count the number of distinct complex roots in the polynomial.
+    Uses the fact that the number of distinct roots equals the degree of the polynomial
+    minus the degree of the GCD of the polynomial and its derivative.
+    """
+    # Get the polynomial in terms of z0 only (treating other variables as coefficients)
+    z0_poly = sp.Poly(poly, z0)
     
-    print("Adjoint Representations:")
-    for i, adj_rep in enumerate(calculator.compute_adjoint_representations(), 1):
-        print(f"ad(x_{i}):\n", adj_rep)
+    # Get the derivative with respect to z0
+    z0_poly_derivative = z0_poly.diff(z0)
     
-    print("\nCharacteristic Polynomial:")
-    char_poly = calculator.symbolic_characteristic_polynomial()
-    print(char_poly)
+    # Calculate the GCD
+    gcd = z0_poly.gcd(z0_poly_derivative)
     
-    print("\nNumber of Distinct Roots:")
-    num_roots = calculator.count_distinct_roots()
-    print(num_roots)
+    # The number of distinct roots is deg(poly) - deg(gcd)
+    total_degree = z0_poly.degree()
+    gcd_degree = gcd.degree()
+    
+    return total_degree - gcd_degree
+
+def characteristic_polynomial(basis, debug=True):
+    """
+    Calculate det(z_0 I + z_1 ad(x_1) + ... + z_n ad(x_n))
+    General version for any Lie algebra
+    """
+    if debug:
+        print("\nBasis matrices:")
+        for i, b in enumerate(basis):
+            print(f"\nb_{i+1}:")
+            print(b)
+    
+    # Calculate adjoint representations
+    ad_matrices = [adjoint_representation(x, basis) for x in basis]
+    
+    if debug:
+        print("\nAdjoint representations:")
+        for i, ad_mat in enumerate(ad_matrices):
+            print(f"\nad(x_{i+1}):")
+            print(ad_mat)
+    
+    # Create symbolic variables
+    n = len(basis)
+    z = [sp.Symbol(f'z{i}') for i in range(n+1)]
+    
+    # Construct the matrix
+    dim = len(basis)  # dimension of the Lie algebra
+    matrix = z[0] * sp.eye(dim)  # Start with z_0 * I
+    for i, ad_mat in enumerate(ad_matrices):
+        matrix += z[i+1] * sp.Matrix(ad_mat)
+    
+    # Calculate and expand the determinant
+    return sp.expand(matrix.det()), z[0]
 
 if __name__ == "__main__":
-    main()
+    # Example with sl(2)
+    # Define the basis for sl(2)
+    x1 = np.array([[1, 0], [0, -1]])
+    x2 = np.array([[0, 1], [0, 0]])
+    x3 = np.array([[0, 0], [1, 0]])
+    
+    # Only need to specify the basis once
+    basis = [x1, x2, x3]
+    
+    print("Original basis matrices:")
+    for i, b in enumerate(basis):
+        print(f"\nx_{i+1} =")
+        print(b)
+    
+    poly, z0 = characteristic_polynomial(basis, debug=True)
+    
+    print("\nCharacteristic polynomial:")
+    print(poly)
+    
+    # Count distinct roots
+    num_roots = count_distinct_roots(poly, z0)
+    print(f"\nNumber of distinct roots over C: {num_roots}")

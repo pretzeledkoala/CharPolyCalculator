@@ -23,8 +23,8 @@ $\mathfrak{sl}_{n+1}(\mathbb{C})$:
 
 | Lie Algebra | Dimension    | $k(L)$   |
 |-------------|--------------|--------|
-| $\mathfrak{sl}_2(\mathbb{C})$    | 3            | 2    |
-| $\mathfrak{sl}_3(\mathbb{C})$   | 8           | 3    |
+| $\mathfrak{sl}_2(\mathbb{C})$    | 3            | 3    |
+| $\mathfrak{sl}_3(\mathbb{C})$   | 8           | ???    |
 | $\mathfrak{sl}_4(\mathbb{C})$    | 15           | ???    |
 | $\mathfrak{sl}_5(\mathbb{C})$    | 24           | ???    |
 | $\mathfrak{sl}_6(\mathbb{C})$    | 35           | ???    |
