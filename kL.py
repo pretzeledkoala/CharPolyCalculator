@@ -8,7 +8,7 @@ def adjoint_representation(x, basis):
     ad(x)(y) = [x,y] = xy - yx
     """
     n = len(basis)
-    ad_x = np.zeros((n, n))
+    ad_x = np.zeros((n, n), dtype=complex)  # Use dtype=complex to store complex numbers
     
     # Calculate the action of x on each basis element
     for i, e in enumerate(basis):
@@ -47,11 +47,11 @@ def characteristic_polynomial(basis, debug=True):
     Calculate det(z_0 I + z_1 ad(x_1) + ... + z_n ad(x_n))
     General version for any Lie algebra
     """
-    if debug:
-        print("\nBasis matrices:")
-        for i, b in enumerate(basis):
-            print(f"\nb_{i+1}:")
-            print(b)
+    # if debug:
+    #     print("\nBasis matrices:")
+    #     for i, b in enumerate(basis):
+    #         print(f"\nb_{i+1}:")
+    #         print(b)
     
     # Calculate adjoint representations
     ad_matrices = [adjoint_representation(x, basis) for x in basis]
@@ -76,13 +76,12 @@ def characteristic_polynomial(basis, debug=True):
     return sp.expand(matrix.det()), z[0]
 
 if __name__ == "__main__":
-    # Example with sl(2)
-    # Define the basis for sl(2)
+    # Define the basis here
     x1 = np.array([[1, 0], [0, -1]])
     x2 = np.array([[0, 1], [0, 0]])
     x3 = np.array([[0, 0], [1, 0]])
     
-    # Only need to specify the basis once
+    # Specify number of terms in the basis
     basis = [x1, x2, x3]
     
     print("Original basis matrices:")
