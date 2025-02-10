@@ -48,13 +48,40 @@ def max_distinct_eigenvalues(lie_algebra):
 # Example: 1D extension input in the requested format
 
 # Define each generator as an individual variable
-x1 = np.array([[0, 1], [0, 0]], dtype=complex)  # x1
-x2 = np.array([[0, 0], [0, 0]], dtype=complex)  # x2
-x3 = np.array([[1, 0], [0, 0]], dtype=complex)  # x3 (central element)
+x1 = np.array([[0,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # P₁
+x2 = np.array([[0,0,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # B₁
+x3 = np.array([[0,0,0,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # P₂
+x4 = np.array([[0,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # B₂
+x5 = np.array([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # H (central)
+
+# Case F6: Non-nilpotent, non-diagonal
+S1 = np.array([
+    [2, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1]
+    ])
+
+S2 = np.array([
+        [0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, -1, 0],
+        [0, 0, 0, 0, 0]
+        ])
+
+S3 = np.array([
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, -1]
+        ])
 
 # Now compute the maximum distinct eigenvalues from the adjoint representation
-onedimextend = [x1, x2, x3]
+extended = [x1, x2, x3, x4, x5, S1, S2, S3]
 
 # Compute the result
-result = max_distinct_eigenvalues(onedimextend)
+result = max_distinct_eigenvalues(extended)
 print("Maximum number of distinct eigenvalues:", result)

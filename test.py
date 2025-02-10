@@ -10,14 +10,24 @@ def adjoint_representation(x, basis):
     n = len(basis)
     ad_x = np.zeros((n, n), dtype=complex)  # Use dtype=complex to store complex numbers
     
+    # Convert `x` and `basis` elements to sympy matrices
+    x_sp = sp.Matrix(x)
+    basis_sp = [sp.Matrix(b) for b in basis]
+    
     # Calculate the action of x on each basis element
-    for i, e in enumerate(basis):
+    for i, e in enumerate(basis_sp):
         # Calculate [x,e] = xe - ex
-        commutator = x @ e - e @ x
+        commutator = x_sp * e - e * x_sp
         # Convert the result into coordinates with respect to the basis
-        for j, b in enumerate(basis):
-            # Use trace for inner product: <A,B> = tr(A^T B)
-            ad_x[j, i] = np.trace(b.T @ commutator) / np.trace(b.T @ b)
+        for j, b in enumerate(basis_sp):
+            # Calculate the inner product
+            denominator = sp.trace(b.T * b)  # Use sp.trace for symbolic matrices
+            
+            # Avoid division by zero
+            if denominator != 0:
+                ad_x[j, i] = sp.trace(b.T * commutator) / denominator
+            else:
+                ad_x[j, i] = 0  # You could handle this more carefully, if needed
             
     return ad_x
 
@@ -78,8 +88,32 @@ if __name__ == "__main__":
     x4 = np.array([[0,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # B₂
     x5 = np.array([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # H (central)
 
+    # Case F6: Non-nilpotent, non-diagonal
+    S1 = np.array([
+    [2, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1]
+    ])
+
+    S2 = np.array([
+        [0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, -1, 0],
+        [0, 0, 0, 0, 0]
+        ])
+
+    S3 = np.array([
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, -1]
+        ])
     # Specify number of terms in the basis
-    basis = [x1, x2, x3, x4, x5]
+    basis = [x1, x2, x3, x4, x5, S1, S2, S3]
     
     print("Original basis matrices:")
     for i, b in enumerate(basis):

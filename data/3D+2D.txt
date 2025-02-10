@@ -1,0 +1,62 @@
+# 3D Heisenberg With 2D Extension
+    x1 = np.array([[0, 1, 0], [0, 0, 0], [0, 0, 0]])
+    x2 = np.array([[0, 0, 1], [0, 0, 0], [0, 0, 0]])
+    x3 = np.array([[0, 0, 0], [0, 0, 1], [0, 0, 0]])
+    x4 = np.array([[2, 0, 0], [0, 1, 0], [0, 0, 1]])
+    x5 = np.array([[0, 0, 0], [0, 1, 0], [0, 0, -1]])
+
+
+There are 3 possibilities: 
+$$
+M^{(1)} =
+\begin{pmatrix}
+2 & 0 & 0  \\
+0 & 1+b & 0 \\
+0 & 0 & 1-b
+\end{pmatrix}, \quad b \geq 0,
+$$
+
+$$
+M^{(2)} =
+\begin{pmatrix}
+2 & 0 & 0 \\
+0 & 1 & 1 \\
+0 & 0 & 1
+\end{pmatrix}
+$$
+
+$$
+M^{(3)} =
+\begin{pmatrix}
+0 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & -1
+\end{pmatrix}.
+$$
+
+
+$$
+M^{(2)} =
+\begin{pmatrix}
+2 & 0 & 0 \\
+0 & 1 & 1 \\
+0 & 0 & 1
+\end{pmatrix},
+$$ 
+and 
+$$
+\begin{pmatrix}
+z_0+2z_4 & z_1 & z_2 \\ 
+0 & z_0+z_4 & z_3+z_4 \\ 
+0 & 0 & z_0+z_4
+\end{pmatrix}
+$$
+
+$$
+M^{(3)} =
+\begin{pmatrix}
+0 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & -1
+\end{pmatrix}.
+$$

@@ -6,19 +6,6 @@ This is a calculator for computing the characteristic polynomial of several vari
 
 ## Complex Simple Lie Algebras
 
-- $\mathfrak{sl}_{n+1} \mathbb{C}$
-
-The dimension of $\mathfrak{sl}_{n+1} \mathbb{C}$ is 
-
-
-- $\mathfrak{so}_{2n+1} \mathbb{C}$
-- $\mathfrak{sp}_{2n}\mathbb{C}$
-- $\mathfrak{so}_{2n}\mathbb{C}$
-- Exceptional Lie algebras: $E_6, E_7, E_8, F_4, G_2$
-
-
-Here are the dimensions of the Lie algebras you asked about:
-
 $\mathfrak{sl}_{n+1}(\mathbb{C})$:
 
 | Lie Algebra | Dimension    | $k(L)$   |
@@ -34,7 +21,7 @@ $\mathfrak{so}_{2n+1}(\mathbb{C})$:
 
 | Lie Algebra       | Dimension      | $k(L)$ |
 |-------------------|----------------|------------|
-| $\mathfrak{so}_{3}(\mathbb{C})$          | 3              | ???          |
+| $\mathfrak{so}_{3}(\mathbb{C})$          | 3              | 3          |
 | $\mathfrak{so}_{5}(\mathbb{C})$          | 10             | ???          |
 | $\mathfrak{so}_{7}(\mathbb{C})$          | 21             | ???        |
 | $\mathfrak{so}_{9}(\mathbb{C})$          | 36             | ???        |
@@ -45,7 +32,7 @@ $\mathfrak{sp}_{2n}(\mathbb{C})$
 
 | Lie Algebra            | Dimension      | $k(L)$ |
 |------------------------|----------------|------------|
-| $\mathfrak{sp}_2(\mathbb{C})$    | 3            | ???        |
+| $\mathfrak{sp}_2(\mathbb{C})$    | 3            | 3        |
 | $\mathfrak{sp}_4(\mathbb{C})$    | 10           | ???        |
 | $\mathfrak{sp}_6(\mathbb{C})$    | 21           | ???        |
 | $\mathfrak{sp}_8(\mathbb{C})$    | 36           | ???        |
@@ -56,8 +43,8 @@ $\mathfrak{so}_{2n}(\mathbb{C})$
 
 | Lie Algebra            | Dimension      | $k(L)$ |
 |------------------------|----------------|------------|
-| $\mathfrak{so}_2(\mathbb{C})$    | 1            | ???        |
-| $\mathfrak{so}_4(\mathbb{C})$    | 6            | ???        |
+| $\mathfrak{so}_2(\mathbb{C})$    | 1            | 1        |
+| $\mathfrak{so}_4(\mathbb{C})$    | 6            | 5        |
 | $\mathfrak{so}_6(\mathbb{C})$    | 15           | ???        |
 | $\mathfrak{so}_8(\mathbb{C})$    | 28           | ???        |
 | $\mathfrak{so}_{10}(\mathbb{C})$ | 45           | ???        |

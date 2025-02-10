@@ -1,0 +1,139 @@
+import numpy as np
+
+# Heisenberg basis (5D)
+x1 = np.array([[0,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # P₁
+x2 = np.array([[0,0,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # B₁
+x3 = np.array([[0,0,0,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # P₂
+x4 = np.array([[0,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # B₂
+x5 = np.array([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # H (central)
+
+# 8 Extensions over ℂ (S₁, S₂ matrices)
+# -----------------------------------------
+# F1: Diagonal action
+# S₁: Diagonal action diag(1, 0, -1, 0, 0) on [P₁, B₁, P₂, B₂, H]
+x6 = np.array([
+    [1, 0, 0, 0, 0],  # Scales P₁ by +1
+    [0, 0, 0, 0, 0],  # Acts trivially on B₁
+    [0, 0, -1, 0, 0], # Scales P₂ by -1
+    [0, 0, 0, 0, 0],  # Acts trivially on B₂
+    [0, 0, 0, 0, 0]   # [S₁, H] = 2H (enforced via bracket)
+    ])
+
+    x7 = np.array([
+        [0, 0, 0, 0, 0],  # Acts trivially on P₁
+        [0, 1, 0, 0, 0],  # Scales B₁ by +1
+        [0, 0, 0, 0, 0],  # Acts trivially on P₂
+        [0, 0, 0, -1, 0], # Scales B₂ by -1
+        [0, 0, 0, 0, 0]   # [S₂, H] = 0 (a₂ = 0)
+    ])
+
+# F2: Jordan block structure
+x6_F2 = np.array([
+    [0,1,0,0,0], 
+    [0,0,1,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0]
+])
+x7_F2 = np.array([
+    [0,0,0,0,0], 
+    [0,0,0,1,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0]
+])
+
+# F3: Nilpotent action
+x6_F3 = np.array([
+    [0,0,0,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,1,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0]
+])
+x7_F3 = np.array([
+    [0,0,0,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,1], 
+    [0,0,0,0,0]
+])
+
+# F4: Mixed diagonal/nilpotent
+x6_F4 = np.array([
+    [1, 0, 0, 0, 0],  # Acts trivially on P₁
+    [0, 0, 0, 0, 0],  # Scales B₁ by 1
+    [0, 0, -1, 0, 0],  # Acts trivially on P₂
+    [0, 0, 0, 0, 0], # Scales B₂ by -1
+    [0, 0, 0, 0, 0]   # Acts trivially on H (but see note below)
+])
+x7_F4 = np.array([
+    [0,0,0,0,0], 
+    [0,0,1,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0]
+])
+
+# F5: Off-diagonal symplectic
+x6_F5 = np.array([
+    [0,0,1,0,0], 
+    [0,0,0,0,0], 
+    [-1,0,0,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0]
+])
+x7_F5 = np.array([
+    [0,0,0,1,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0], 
+    [-1,0,0,0,0], 
+    [0,0,0,0,0]
+])
+
+# F6: Parameterized diagonal (b ∈ ℂ)
+b = 1  # Example value
+x6_F6 = np.diag([b, 0, -b, 0, 0])
+x7_F6 = np.diag([0, 1, 0, -1, 0])
+
+# F7: Compact/non-compact mix
+x6_F7 = np.array([
+    [1,0,0,0,0], 
+    [0,0,1,0,0], 
+    [0,-1,0,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,0,0]
+])
+x7_F7 = np.array([
+    [0,0,0,0,0], 
+    [0,1,0,0,0], 
+    [0,0,0,0,0], 
+    [0,0,0,-1,0], 
+    [0,0,0,0,0]
+])
+
+# F8: Fully non-diagonal
+x6_F8 = np.array([
+    [0,1,0,0,0], 
+    [1,0,0,0,0], 
+    [0,0,0,1,0], 
+    [0,0,1,0,0], 
+    [0,0,0,0,0]
+])
+x7_F8 = np.array([
+    [0,0,1,0,0], 
+    [0,0,0,1,0], 
+    [1,0,0,0,0], 
+    [0,1,0,0,0], 
+    [0,0,0,0,0]
+])
+
+# Full bases for each algebra
+F1_basis = [x1, x2, x3, x4, x5, x6, x7]
+F2_basis = [x1, x2, x3, x4, x5, x6_F2, x7_F2]
+F3_basis = [x1, x2, x3, x4, x5, x6_F3, x7_F3]
+F4_basis = [x1, x2, x3, x4, x5, x6_F4, x7_F4]
+F5_basis = [x1, x2, x3, x4, x5, x6_F5, x7_F5]
+F6_basis = [x1, x2, x3, x4, x5, x6_F6, x7_F6]
+F7_basis = [x1, x2, x3, x4, x5, x6_F7, x7_F7]
+F8_basis = [x1, x2, x3, x4, x5, x6_F8, x7_F8]
