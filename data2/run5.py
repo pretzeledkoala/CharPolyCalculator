@@ -1,5 +1,4 @@
 import numpy as np
-from itertools import product
 import sympy as sp
 
 def adjoint_representation(x, basis):
@@ -8,7 +7,7 @@ def adjoint_representation(x, basis):
     ad(x)(y) = [x,y] = xy - yx
     """
     n = len(basis)
-    ad_x = np.zeros((n, n), dtype=complex)  # Use dtype=complex to store complex numbers
+    ad_x = sp.zeros(n, n)  # Initialize as a symbolic matrix
     
     # Convert `x` and `basis` elements to sympy matrices
     x_sp = sp.Matrix(x)
@@ -20,7 +19,7 @@ def adjoint_representation(x, basis):
         commutator = x_sp * e - e * x_sp
         # Convert the result into coordinates with respect to the basis
         for j, b in enumerate(basis_sp):
-            # Calculate the inner product
+            # Calculate the inner product using symbolic matrix multiplication
             denominator = sp.trace(b.T * b)  # Use sp.trace for symbolic matrices
             
             # Avoid division by zero
@@ -64,7 +63,7 @@ def characteristic_polynomial(basis, debug=True):
         print("\nAdjoint representations:")
         for i, ad_mat in enumerate(ad_matrices):
             print(f"\nad(x_{i+1}):")
-            print(ad_mat)
+            sp.pprint(ad_mat)
     
     # Create symbolic variables
     n = len(basis)
@@ -76,55 +75,54 @@ def characteristic_polynomial(basis, debug=True):
     for i, ad_mat in enumerate(ad_matrices):
         matrix += z[i+1] * sp.Matrix(ad_mat)
     
+    # Print the matrix before calculating the determinant
+    print("\nMatrix before determinant:")
+    sp.pprint(matrix)
+    
     # Calculate and expand the determinant
-    return sp.expand(matrix.det()), z[0]
+    det_poly = sp.expand(matrix.det())
+    
+    # Factor the characteristic polynomial
+    factored_poly = sp.factor(det_poly)
+    
+    return factored_poly, det_poly, z[0]
 
 if __name__ == "__main__":
-    # Define the basis here with complex numbers
+    # Define the basis here with the new 3x3 matrices
+    p1 = np.array([[0, 1, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]) # p₁
+    p2 = np.array([[0, 0, 1, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]) # p₁
+    q1 = np.array([[0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]) # p₁
+    q2 = np.array([[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]) # p₁
+    h = np.array([[0, 0, 0, 0, 1], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]) # p₁
 
-    x1 = np.array([[0,1,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # P₁
-    x2 = np.array([[0,0,1,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # B₁
-    x3 = np.array([[0,0,0,1,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # P₂
-    x4 = np.array([[0,0,0,0,1], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # B₂
-    x5 = np.array([[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]])  # H (central)
-
-    # Case F6: Non-nilpotent, non-diagonal
-    S1 = np.array([
-    [2, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0],
-    [0, 0, 1, 0, 0],
-    [0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 1]
+    F8 = np.array([
+    [2, 0, 0, 0, 0],  
+    [0, 1, 1, 0, 0],  
+    [0, 0, 1, 0, -1],  
+    [0, 0, 0, 1, 0],  
+    [0, 0, 0, -1, 1], 
     ])
 
-    S2 = np.array([
-        [0, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, -1, 0],
-        [0, 0, 0, 0, 0]
-        ])
+    
+    # extension = np.array([[0,0,0],[0,1,0],[0,0,-1]])
+    # extension1 = np.array([[2, 0, 0],[0, 1, 0],[0, 0, 1]])
+    # extension2 = np.array([[0, 0, 0],[0, 0, -1],[0, 1, 0]])
+    # extension = np.array([[2, 0, 0], [0, 1 + sp.symbols('b'), 0], [0, 0, 1 - sp.symbols('b')]])  # extension
 
-    S3 = np.array([
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, -1]
-        ])
     # Specify number of terms in the basis
-    basis = [x1, x2, x3, x4, x5, S1, S2, S3]
+    basis = [p1, p2, q1, q2, h, F8]
     
     print("Original basis matrices:")
     for i, b in enumerate(basis):
         print(f"\nx_{i+1} =")
         print(b)
     
-    poly, z0 = characteristic_polynomial(basis, debug=True)
+    factored_poly, det_poly, z0 = characteristic_polynomial(basis, debug=True)
     
-    print("\nCharacteristic polynomial:")
-    print(poly)
+    # Print the factored form of the characteristic polynomial
+    print("\nFactored form of the characteristic polynomial:")
+    print(factored_poly)
     
     # Count distinct roots
-    num_roots = count_distinct_roots(poly, z0)
+    num_roots = count_distinct_roots(det_poly, z0)
     print(f"\nNumber of distinct roots over C: {num_roots}")
