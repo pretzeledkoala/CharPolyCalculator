@@ -93,7 +93,7 @@ if __name__ == "__main__":
     q1 = np.array([[0, 0, 0], [0, 0, 1], [0, 0, 0]]) # p₁
     h = np.array([[0, 0, 1], [0, 0, 0], [0, 0, 0]]) # p₁
     e1 = np.array([[2, 0, 0], [0, 1, 0], [0, 0, 1]]) # p₁
-    e2 = np.array([[0, 0, 0], [0, 0, -1], [0, 1, 0]]) # p₁
+    e2 = np.array([[0, 0, 0], [0, 1, 0], [0, 0, -1]]) # p₁
 
     # Specify number of terms in the basis
     basis = [p1, q1, h, e1, e2]
